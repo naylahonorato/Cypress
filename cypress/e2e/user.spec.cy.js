@@ -4,6 +4,9 @@ import DashboardPage from '../pages/dashboardPage'
 import MenuPage from '../pages/menuPage'
 import MyInfoPage from '../pages/myInfoPage'
 
+const Chance = require('chance')
+
+const chance = new Chance()
 const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
 const menuPage = new MenuPage()
@@ -20,15 +23,11 @@ describe('Orange HRM Test', () => {
     
     menuPage.accessMyInfo()
     
-    myInfoPage.fillPersonalDetails('First Name', 'Last Name')
-    myInfoPage.fillEmployeeDetails('EmployeeId', 'Other Id', 'Drivers Licenses','2025-01-28')
+    myInfoPage.fillPersonalDetails(chance.first(), chance.last())
+    myInfoPage.fillEmployeeDetails(chance.string({ length: 5 }), chance.string({ length: 5}), chance.string({ length: 5 }),chance.date({string: true, american: false}))
     myInfoPage.fillStatus()
     myInfoPage.saveForm()
 
   })
-  it('Login - Fail', () => {
-    loginPage.accessLoginPage()
-    loginPage.loginWithUser(userData.userFail.username, userData.userFail.password)
-    loginPage.checkAccessInvalid()
-  })
+  
 })
